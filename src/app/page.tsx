@@ -2,7 +2,8 @@ import { site } from "@/content/site";
 
 const nav = [
   { id: "about", label: "About" },
-  { id: "work", label: "Work" },
+  { id: "cves", label: "CVEs" },
+  { id: "projects", label: "Projects" },
   { id: "experience", label: "Experience" },
   { id: "contact", label: "Contact" },
 ];
@@ -22,7 +23,7 @@ function Section({
       className="scroll-mt-20 border-t border-line py-16 md:grid md:grid-cols-[10rem_1fr] md:gap-10 md:py-20"
     >
       <h2 className="mb-8 text-sm text-muted md:mb-0 md:pt-1">{title}</h2>
-      <div>{children}</div>
+      <div className="min-w-0">{children}</div>
     </section>
   );
 }
@@ -43,7 +44,23 @@ function ArrowLink({ href, children }: { href: string; children: React.ReactNode
   );
 }
 
+function SeverityBadge({ severity, cvss }: { severity: string; cvss?: string }) {
+  const strong = severity === "critical" || severity === "high";
+  return (
+    <span
+      className={`inline-flex shrink-0 items-center gap-1 rounded-full border px-2 py-0.5 font-mono text-[11px] capitalize ${
+        strong ? "border-accent/40 text-accent" : "border-line text-muted"
+      }`}
+    >
+      {severity}
+      {cvss && <span className="opacity-70">{cvss}</span>}
+    </span>
+  );
+}
+
 export default function Home() {
+  const cveCount = site.advisories.reduce((n, g) => n + g.items.length, 0);
+
   return (
     <div className="mx-auto max-w-4xl px-5 sm:px-8">
       <header className="sticky top-0 z-10 -mx-5 flex items-center justify-between gap-4 bg-paper/85 px-5 py-4 backdrop-blur sm:-mx-8 sm:px-8">
@@ -52,7 +69,11 @@ export default function Home() {
         </a>
         <nav className="flex shrink-0 gap-3 text-sm text-muted sm:gap-6">
           {nav.map((n) => (
-            <a key={n.id} href={`#${n.id}`} className="transition-colors hover:text-ink">
+            <a
+              key={n.id}
+              href={`#${n.id}`}
+              className={`transition-colors hover:text-ink ${n.id === "experience" ? "hidden sm:inline" : ""}`}
+            >
               {n.label}
             </a>
           ))}
@@ -70,10 +91,10 @@ export default function Home() {
           </h1>
           <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
             <a
-              href="#work"
+              href="#cves"
               className="rounded-full bg-ink px-5 py-2.5 text-sm text-paper transition-colors hover:bg-accent"
             >
-              See my work
+              See my CVEs
             </a>
             <a
               href={`mailto:${site.contact.email}`}
@@ -81,13 +102,17 @@ export default function Home() {
             >
               {site.contact.email}
             </a>
-            {site.available && (
-              <span className="flex items-center gap-2 text-sm text-muted">
-                <span className="size-2 rounded-full bg-accent" />
-                Open to new work
-              </span>
-            )}
           </div>
+
+          <dl className="mt-16 grid gap-8 border-t border-line pt-8 sm:grid-cols-3">
+            {site.stats.map((s) => (
+              <div key={s.label}>
+                <dt className="sr-only">{s.label}</dt>
+                <dd className="font-serif text-4xl">{s.value}</dd>
+                <dd className="mt-1 text-sm text-muted">{s.label}</dd>
+              </div>
+            ))}
+          </dl>
         </section>
 
         <Section id="about" title="About">
@@ -98,17 +123,58 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section id="work" title="Selected work">
+        <Section id="cves" title="Security advisories">
+          <p className="mb-10 max-w-2xl leading-relaxed text-muted">
+            {cveCount} published CVEs, found through coordinated disclosure with each project&apos;s
+            maintainers. Every entry links to its GitHub advisory.
+          </p>
+          <div className="space-y-12">
+            {site.advisories.map((g) => (
+              <div key={g.project}>
+                <div className="mb-4 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                  <h3 className="font-serif text-2xl">{g.project}</h3>
+                  <span className="font-mono text-xs text-muted">
+                    {g.ecosystem}
+                    {g.usage && ` · ${g.usage}`}
+                  </span>
+                </div>
+                <ul className="divide-y divide-line border-y border-line">
+                  {g.items.map((a) => (
+                    <li key={a.cve}>
+                      <a
+                        href={`https://github.com/advisories/${a.ghsa}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="group grid gap-2 py-4 transition-colors sm:grid-cols-[9.5rem_1fr_auto] sm:items-baseline sm:gap-4"
+                      >
+                        <span className="font-mono text-sm group-hover:text-accent">{a.cve}</span>
+                        <span className="leading-snug text-muted group-hover:text-ink">{a.title}</span>
+                        <span className="flex items-center gap-2 sm:justify-end">
+                          <SeverityBadge severity={a.severity} cvss={a.cvss} />
+                          <span className="text-xs text-muted">{a.role}</span>
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8">
+            <ArrowLink href="https://github.com/advisories?query=credit%3Aeros938">
+              All advisory credits on GitHub
+            </ArrowLink>
+          </div>
+        </Section>
+
+        <Section id="projects" title="Projects & research">
           <ul className="grid gap-4 sm:grid-cols-2">
             {site.projects.map((p) => (
               <li
                 key={p.title}
                 className="flex flex-col rounded-2xl border border-line bg-card p-6 transition-colors hover:border-muted"
               >
-                <div className="flex items-baseline justify-between gap-4">
-                  <h3 className="font-serif text-2xl">{p.title}</h3>
-                  {p.year && <span className="font-mono text-xs text-muted">{p.year}</span>}
-                </div>
+                <h3 className="font-serif text-2xl">{p.title}</h3>
                 <p className="mt-3 flex-1 leading-relaxed text-muted">{p.description}</p>
                 <ul className="mt-5 flex flex-wrap gap-2">
                   {p.tags.map((t) => (
@@ -143,7 +209,7 @@ export default function Home() {
             ))}
           </ol>
 
-          <div className="mt-16 grid gap-8 sm:grid-cols-3">
+          <div className="mt-16 grid gap-10 sm:grid-cols-2">
             {Object.entries(site.skills).map(([group, items]) => (
               <div key={group}>
                 <h3 className="mb-3 text-sm font-medium">{group}</h3>
@@ -159,11 +225,11 @@ export default function Home() {
 
         <Section id="contact" title="Contact">
           <p className="max-w-xl font-serif text-4xl leading-tight sm:text-5xl">
-            Have a project in mind, or just want to say hello?
+            Need a security assessment, or want to talk about a disclosure?
           </p>
           <a
             href={`mailto:${site.contact.email}`}
-            className="mt-8 inline-block text-xl underline decoration-accent decoration-2 underline-offset-8 transition-colors hover:text-accent"
+            className="mt-8 inline-block break-all text-xl underline decoration-accent decoration-2 underline-offset-8 transition-colors hover:text-accent"
           >
             {site.contact.email}
           </a>
@@ -178,7 +244,9 @@ export default function Home() {
       </main>
 
       <footer className="flex justify-between border-t border-line py-8 text-sm text-muted">
-        <span>{site.name}</span>
+        <span>
+          {site.name} · {site.handle}
+        </span>
         <a href="#top" className="hover:text-ink">
           Back to top ↑
         </a>
