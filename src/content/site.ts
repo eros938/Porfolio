@@ -41,7 +41,7 @@ export const site = {
   about: [
     "I'm a penetration tester and security engineer at Shellvoide, working across web, API, network and AWS cloud security, with a background in hardware, IoT and embedded systems security. Outside client work I hunt for vulnerabilities in open-source software and report them through coordinated disclosure.",
     "I'm co-credited on 10 published CVEs in projects including axios, follow-redirects, Meta's Hydra, kin-openapi and YesWiki. My findings range from credential leaks in HTTP redirect handling and prototype-pollution gadgets to configuration-driven code execution and denial-of-service bugs in API validation, including an incomplete patch I traced back to three unfixed crash paths.",
-    "I care about making security research useful to maintainers: clear reports, working proofs of concept and help verifying fixes. I co-authored a systematic review of threat modelling and attacks on vehicle digital twins (Smart Cities, MDPI), compete in CTFs, and I'm completing a B.S. in Cyber Security at Air University, Islamabad.",
+    "I care about making security research useful to maintainers: clear reports, working proofs of concept and help verifying fixes. I co-authored a systematic review of threat modelling and attacks on vehicle digital twins (Smart Cities, MDPI), and I compete in CTFs.",
   ],
 
   // Security advisories credited to eros938 on GitHub, grouped by project.
@@ -259,12 +259,6 @@ export const site = {
       company: "HIRG",
       period: "Previously",
       summary: "Firmware reverse engineering, key fob relay attacks and embedded system penetration testing.",
-    },
-    {
-      role: "B.S. Cyber Security",
-      company: "Air University, Islamabad",
-      period: "2023 — 2027",
-      summary: "Undergraduate degree in cyber security.",
     },
   ],
 
