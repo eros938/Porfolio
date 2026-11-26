@@ -1,35 +1,35 @@
 @import "tailwindcss";
 
+/* Night shift: ink-tinted neutrals, one amber accent. */
 :root {
-  --paper: #f6f3ee;
-  --ink: #1c1a17;
-  --muted: #6b655c;
-  --line: #ddd6cb;
-  --card: #fbf9f5;
-  --accent: #b4441f;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #141311;
-    --ink: #ece7df;
-    --muted: #9c958a;
-    --line: #2d2a26;
-    --card: #1b1a17;
-    --accent: #e0774f;
-  }
+  --deep: #07080d;
+  --bg: #0b0d14;
+  --card: #11141c;
+  --raised: #1a1e28;
+  --ink: #eef0f5;
+  --soft: #a3a9b8;
+  --muted: #7a8296;
+  --line: rgb(238 240 245 / 0.08);
+  --line-strong: rgb(238 240 245 / 0.16);
+  --accent: #f5a524;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  color-scheme: dark;
 }
 
 @theme inline {
-  --color-paper: var(--paper);
+  --color-deep: var(--deep);
+  --color-bg: var(--bg);
+  --color-card: var(--card);
+  --color-raised: var(--raised);
   --color-ink: var(--ink);
+  --color-soft: var(--soft);
   --color-muted: var(--muted);
   --color-line: var(--line);
-  --color-card: var(--card);
+  --color-line-strong: var(--line-strong);
   --color-accent: var(--accent);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-serif: var(--font-serif);
+  --ease-out: var(--ease);
 }
 
 html {
@@ -37,13 +37,67 @@ html {
 }
 
 body {
-  background: var(--paper);
+  background: var(--bg);
   color: var(--ink);
 }
 
 ::selection {
   background: var(--accent);
-  color: var(--paper);
+  color: var(--deep);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ---------- Motion ----------
+   Elements with [data-reveal] fade and rise once when they enter the viewport.
+   Hidden only when scripts run and the visitor allows motion, so content is never lost. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  [data-reveal] {
+    transition:
+      opacity 560ms var(--ease),
+      transform 560ms var(--ease);
+    transition-delay: calc(var(--i, 0) * 60ms);
+  }
+  [data-reveal]:not([data-shown]) {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  /* CVSS meter cells fill one after another once their row is shown. */
+  [data-reveal]:not([data-shown]) .meter-cell[data-on] {
+    background: var(--raised);
+  }
+  .meter-cell {
+    transition: background-color 240ms var(--ease);
+    transition-delay: calc(200ms + var(--c, 0) * 45ms);
+  }
+}
+
+/* Hero entrance: pure CSS so the first screen never waits for JavaScript. */
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+@keyframes cell-fill {
+  from {
+    background-color: var(--raised);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .enter {
+    animation: enter 560ms var(--ease) both;
+    animation-delay: calc(var(--i, 0) * 80ms);
+  }
+  .enter .meter-cell[data-on] {
+    animation: cell-fill 240ms var(--ease) both;
+    animation-delay: calc(560ms + var(--c, 0) * 45ms);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

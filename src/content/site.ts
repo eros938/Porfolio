@@ -9,11 +9,34 @@ export const site = {
   url: "https://porfolio-sepia-ten.vercel.app",
   tagline: "I find the security bugs in open source before attackers do.",
 
+  intro:
+    "Penetration tester at Shellvoide. I'm credited on 10 CVEs in axios, follow-redirects, Meta's Hydra, kin-openapi and YesWiki.",
+
+  // Numbers count up from zero when they scroll into view.
   stats: [
-    { value: "10", label: "CVEs credited" },
-    { value: "~290M", label: "weekly downloads across affected npm packages" },
-    { value: "#2", label: "in Pakistan on CTFtime" },
+    { to: 10, label: "CVEs credited" },
+    { to: 290, prefix: "~", suffix: "M", label: "weekly downloads across affected npm packages" },
+    { to: 2, prefix: "#", label: "in Pakistan on CTFtime" },
   ],
+
+  // The advisory shown as a record in the hero. The diff is the real upstream fix.
+  featured: {
+    ghsa: "GHSA-mv28-wj57-f57g",
+    cve: "CVE-2026-52767",
+    published: "2026-07-09",
+    title: "Unauthenticated ActivityPub signature-verification bypass",
+    cvss: 8.2,
+    pkg: "yeswiki/yeswiki",
+    ecosystem: "Composer",
+    affected: ">= 4.6.2, < 4.6.6",
+    patched: "4.6.6",
+    credit: "eros938 · analyst",
+    diff: {
+      before: "if (!openssl_verify(…)) {",
+      after: "if (openssl_verify(…) !== 1) {",
+      note: "openssl_verify() returns -1 on error, and !(-1) is false",
+    },
+  },
 
   about: [
     "I'm a penetration tester and security engineer at Shellvoide, working across web, API, network and AWS cloud security, with a background in hardware, IoT and embedded systems security. Outside client work I hunt for vulnerabilities in open-source software and report them through coordinated disclosure.",
@@ -265,11 +288,10 @@ export const site = {
   } as Record<string, string[]>,
 
   contact: {
-    email: "khizaralishah938@gmail.com",
+    email: "khizarbazeera@proton.me",
     links: [
       { label: "GitHub", href: "https://github.com/eros938" },
       { label: "LinkedIn", href: "https://www.linkedin.com/in/khizar-ali-shah-410214233/" },
-      { label: "Telegram", href: "https://t.me/eros938" },
       { label: "Advisory credits", href: "https://github.com/advisories?query=credit%3Aeros938" },
     ],
   },
