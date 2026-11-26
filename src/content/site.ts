@@ -6,19 +6,19 @@ export const site = {
   role: "Penetration Tester & Security Engineer",
   location: "Islamabad, Pakistan",
   // Used for link previews and the canonical URL. Change it if you deploy to a different address.
-  url: "https://eros-98.vercel.app",
+  url: "https://porfolio-sepia-ten.vercel.app",
   tagline: "I find the security bugs in open source before attackers do.",
 
   stats: [
     { value: "10", label: "CVEs credited" },
     { value: "~290M", label: "weekly downloads across affected npm packages" },
-    { value: "5", label: "open-source projects patched" },
+    { value: "#2", label: "in Pakistan on CTFtime" },
   ],
 
   about: [
-    "I'm a penetration tester and security engineer at Shellvoide, working across web, API, network and AWS cloud security. Outside client work I hunt for vulnerabilities in open-source software and report them through coordinated disclosure.",
+    "I'm a penetration tester and security engineer at Shellvoide, working across web, API, network and AWS cloud security, with a background in hardware, IoT and embedded systems security. Outside client work I hunt for vulnerabilities in open-source software and report them through coordinated disclosure.",
     "I'm co-credited on 10 published CVEs in projects including axios, follow-redirects, Meta's Hydra, kin-openapi and YesWiki. My findings range from credential leaks in HTTP redirect handling and prototype-pollution gadgets to configuration-driven code execution and denial-of-service bugs in API validation, including an incomplete patch I traced back to three unfixed crash paths.",
-    "I care about making security research useful to maintainers: clear reports, working proofs of concept and help verifying fixes. I've published research on threat modelling attacks against vehicle digital twins (Smart Cities, MDPI), and I'm completing a B.S. in Cyber Security at Air University, Islamabad.",
+    "I care about making security research useful to maintainers: clear reports, working proofs of concept and help verifying fixes. I co-authored a systematic review of threat modelling and attacks on vehicle digital twins (Smart Cities, MDPI), compete in CTFs, and I'm completing a B.S. in Cyber Security at Air University, Islamabad.",
   ],
 
   // Security advisories credited to eros938 on GitHub, grouped by project.
@@ -135,33 +135,69 @@ export const site = {
     },
   ] as AdvisoryGroup[],
 
+  // Open-source projects. `links` are optional; projects without a public repo show no link.
   projects: [
+    {
+      title: "GDrive 3.0",
+      description:
+        "Decentralised cloud storage that tackles the weaknesses of centralised platforms like Google Drive by building on a blockchain architecture.",
+      tags: ["Blockchain", "Web3", "Cloud storage"],
+    },
+    {
+      title: "Torlizer",
+      description:
+        "Routes Linux commands and TCP connections through the Tor network so security workflows stay anonymous.",
+      tags: ["Tor", "Linux", "Privacy"],
+      links: [{ label: "Code", href: "https://github.com/president-xd/toralizer" }],
+    },
+    {
+      title: "Cynses AI",
+      description:
+        "An agentic PCAP analyser that investigates packet captures, flags suspicious behaviour and speeds up security triage.",
+      tags: ["AI agents", "Network forensics", "PCAP"],
+      links: [{ label: "Code", href: "https://github.com/eros938/CynsesAi" }],
+    },
+    {
+      title: "SecureHTTPs",
+      description:
+        "A web security analyser that grades CSP policies, cipher suites, digital signatures and other HTTPS security controls.",
+      tags: ["Python", "Web security", "TLS"],
+      links: [{ label: "Code", href: "https://github.com/eros938/secureHTTPs" }],
+    },
     {
       title: "DVMQTT",
       description:
-        "A deliberately vulnerable MQTT lab: common insecure broker and client code alongside working exploits, for practising IoT protocol attacks.",
+        "A deliberately vulnerable MQTT lab: insecure broker and client code alongside working exploits, for practising IoT protocol attacks.",
       tags: ["Python", "MQTT", "IoT"],
-      repo: "https://github.com/eros938/DVMQTT",
+      links: [{ label: "Code", href: "https://github.com/eros938/DVMQTT" }],
     },
     {
-      title: "secureHTTPs",
-      description: "A web scanning and analysis tool for checking a site's HTTPS and security configuration.",
-      tags: ["Python", "Web security"],
-      repo: "https://github.com/eros938/secureHTTPs",
-    },
-    {
-      title: "Digital Twins of Vehicles",
+      title: "ShellCode Process Injector",
       description:
-        "Published research: threat modelling and attacks on digital twins of connected vehicles, in the journal Smart Cities (MDPI).",
-      tags: ["Research", "Threat modelling", "Automotive"],
+        "An educational 64-bit MASM shellcode process injector for studying low-level execution flow and process injection.",
+      tags: ["MASM", "Windows internals", "Malware analysis"],
+    },
+    {
+      title: "ESP32 Secure IoT System",
+      description:
+        "ESP32 firmware with AWS IoT integration, SSL/TLS-secured communication and over-the-air updates.",
+      tags: ["ESP-IDF", "FreeRTOS", "AWS IoT"],
     },
     {
       title: "OTP Vulnerable Site",
       description: "A deliberately vulnerable one-time-password flow for practising authentication bypass techniques.",
-      tags: ["HTML", "Auth"],
-      repo: "https://github.com/eros938/OTP-Vulnerable-Site",
+      tags: ["Web", "Auth"],
+      links: [{ label: "Code", href: "https://github.com/eros938/OTP-Vulnerable-Site" }],
     },
   ] as Project[],
+
+  publication: {
+    title: "Threat Modeling and Attacks on Digital Twins of Vehicles: A Systematic Literature Review",
+    venue: "Smart Cities (MDPI), 2025, 8(5), 142",
+    summary:
+      "A PRISMA-based review, co-authored with international collaborators, that maps cybersecurity risks and threat-modelling methods for automotive digital twins, highlights gaps in validating attack simulations, and proposes directions aligned with UNECE R155.",
+    href: "https://doi.org/10.3390/smartcities8050142",
+  },
 
   experience: [
     {
@@ -178,22 +214,58 @@ export const site = {
         "10 CVEs published through coordinated disclosure across the npm, PyPI, Go and PHP ecosystems, working with maintainers to verify fixes.",
     },
     {
+      role: "Mobile & Embedded Systems Security Intern",
+      company: "National Center for Cyber Security",
+      period: "Internship",
+      summary: "Analysed device-level risks, tested attack surfaces and improved hardening for mobile and embedded systems.",
+    },
+    {
+      role: "AppSec Intern",
+      company: "National Center for Cyber Security",
+      period: "Internship",
+      summary: "Application security assessments, threat identification and secure code review on real project workflows.",
+    },
+    {
+      role: "AppSec Intern",
+      company: "Trillium Information Security Systems",
+      period: "Internship",
+      summary: "Vulnerability analysis, secure testing workflows and risk-focused reporting.",
+    },
+    {
+      role: "Hardware Penetration Tester",
+      company: "HIRG",
+      period: "Previously",
+      summary: "Firmware reverse engineering, key fob relay attacks and embedded system penetration testing.",
+    },
+    {
       role: "B.S. Cyber Security",
       company: "Air University, Islamabad",
-      period: "Expected 2027",
+      period: "2023 — 2027",
       summary: "Undergraduate degree in cyber security.",
     },
   ],
 
+  achievements: [
+    "Black Hat MEA CTF finalist, Riyadh — 45th worldwide",
+    "#2 in Pakistan on CTFtime",
+    "Hack The Box Pro Hacker — top 6 in Pakistan",
+    "NUST MCS CTF 2026 — 2nd place",
+    "PCC CTF 2026 — top 5",
+    "NUST MCS CTF 2025 — finalist, top 6",
+    "Ignite CTF 2024 qualifiers — top 8",
+    "Air Range — solo champion",
+  ],
+
   skills: {
     Focus: ["Web app pentesting", "API security", "Network pentesting", "Cloud security (AWS)", "Red teaming", "OSINT"],
+    "Hardware & IoT": ["Firmware reverse engineering", "Embedded & MCU security", "Bluetooth & radio security", "CAN bus", "Secure boot"],
     Tools: ["Burp Suite Pro", "Metasploit", "Nmap", "Nuclei", "BloodHound", "Impacket", "SQLMap", "Wireshark"],
-    "Certifications": ["C|PENT (EC-Council)", "CRTA (CyberWarFare Labs)", "CAP (The SecOps Group)"],
-    Recognition: ["Black Hat MEA finalist", "Hack The Box top 6 in Pakistan", "Air Range solo champion"],
+    Languages: ["Python", "C++", "Bash", "PowerShell", "ARM assembly", "MASM"],
+    Certifications: ["C|PENT (EC-Council)", "CRTA (CyberWarFare Labs)", "CAP (The SecOps Group)", "TryHackMe Advent of Cyber"],
   } as Record<string, string[]>,
 
   contact: {
-    email: "khizarbaacha@gmail.com",
+    email: "khizaralishah938@gmail.com",
     links: [
       { label: "GitHub", href: "https://github.com/eros938" },
       { label: "LinkedIn", href: "https://www.linkedin.com/in/khizar-ali-shah-410214233/" },
@@ -207,8 +279,7 @@ export type Project = {
   title: string;
   description: string;
   tags: string[];
-  href?: string;
-  repo?: string;
+  links?: { label: string; href: string }[];
 };
 
 export type Advisory = {

@@ -4,6 +4,7 @@ const nav = [
   { id: "about", label: "About" },
   { id: "cves", label: "CVEs" },
   { id: "projects", label: "Projects" },
+  { id: "research", label: "Research" },
   { id: "experience", label: "Experience" },
   { id: "contact", label: "Contact" },
 ];
@@ -72,7 +73,7 @@ export default function Home() {
             <a
               key={n.id}
               href={`#${n.id}`}
-              className={`transition-colors hover:text-ink ${n.id === "experience" ? "hidden sm:inline" : ""}`}
+              className={`transition-colors hover:text-ink ${n.id === "experience" || n.id === "research" ? "hidden sm:inline" : ""}`}
             >
               {n.label}
             </a>
@@ -167,7 +168,7 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section id="projects" title="Projects & research">
+        <Section id="projects" title="Open-source projects">
           <ul className="grid gap-4 sm:grid-cols-2">
             {site.projects.map((p) => (
               <li
@@ -183,15 +184,29 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
-                {(p.href || p.repo) && (
+                {p.links && p.links.length > 0 && (
                   <div className="mt-5 flex gap-5">
-                    {p.href && <ArrowLink href={p.href}>Live</ArrowLink>}
-                    {p.repo && <ArrowLink href={p.repo}>Code</ArrowLink>}
+                    {p.links.map((l) => (
+                      <ArrowLink key={l.href} href={l.href}>
+                        {l.label}
+                      </ArrowLink>
+                    ))}
                   </div>
                 )}
               </li>
             ))}
           </ul>
+        </Section>
+
+        <Section id="research" title="Research">
+          <article className="max-w-2xl">
+            <p className="font-mono text-xs text-muted">{site.publication.venue}</p>
+            <h3 className="mt-3 font-serif text-3xl leading-tight">{site.publication.title}</h3>
+            <p className="mt-4 leading-relaxed text-muted">{site.publication.summary}</p>
+            <div className="mt-5">
+              <ArrowLink href={site.publication.href}>Read the paper</ArrowLink>
+            </div>
+          </article>
         </Section>
 
         <Section id="experience" title="Experience">
@@ -208,6 +223,18 @@ export default function Home() {
               </li>
             ))}
           </ol>
+
+          <div className="mt-16">
+            <h3 className="mb-4 text-sm font-medium">Achievements</h3>
+            <ul className="grid gap-x-8 gap-y-2 text-muted sm:grid-cols-2">
+              {site.achievements.map((a) => (
+                <li key={a} className="flex gap-3">
+                  <span aria-hidden className="mt-2.5 size-1 shrink-0 rounded-full bg-accent" />
+                  {a}
+                </li>
+              ))}
+            </ul>
+          </div>
 
           <div className="mt-16 grid gap-10 sm:grid-cols-2">
             {Object.entries(site.skills).map(([group, items]) => (
